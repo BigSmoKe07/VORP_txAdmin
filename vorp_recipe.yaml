@@ -1,8 +1,8 @@
 $engine: 3
 $onesync: on
-name: VORPCore
-author: vorpcore
-description: VorpCore Official txAdmin recipe! This will set up a base vorp official server.
+name: BigSmoke07
+author: vorpcore-BigSmoke
+description: VorpCore Official with bcc scripts.
 
 variables:
     steam_webApiKey: "none"
@@ -10,7 +10,7 @@ variables:
 tasks:
 # Recipe Specific server.cfg files
   - action: download_github
-    src: https://github.com/BigSmoKe07/VORP_txAdmin
+    src: https://github.com/VORPCORE/VORP_txAdmin
     ref: main
     dest: ./temp/vorp_txAdminRecipe
   
@@ -48,3 +48,121 @@ tasks:
 # Clean up temporary files
   - action: remove_path
     path: ./temp
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-loadscreen
+    ref: main
+    dest: ./resources/[bcc]/bcc-loadscreen
+    
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-loadscreen-helper
+    ref: main
+    dest: ./resources/[bcc]/bcc-loadscreen-helper
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-blindfold
+    ref: main
+    dest: /resources/[bcc]/bcc-blindfold
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-versioner
+    ref: main
+    dest: ./resources/[bcc]/bcc-versioner
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-anticheat
+    ref: main
+    dest: ./resources/[bcc]/bcc-anticheat
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-discord
+    ref: main
+    dest: ./resources/[bcc]/bcc-discord
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-pets
+    ref: main
+    dest: ./resources/[bcc]/bcc-pets
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-scene
+    ref: main
+    dest: ./resources/[bcc]/bcc-scene
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-job-alerts
+    ref: main
+    dest: ./resources/[bcc]/bcc-job-alerts
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-stables
+    ref: main
+    dest: ./resources/[bcc]/bcc-stables
+  
+  - action: waste_time 
+    seconds: 5
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-goldpanning
+    ref: main
+    dest: ./resources/[bcc]/bcc-goldpanning
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-bin
+    ref: main
+    dest: ./resources/[bcc]/bcc-bin
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-housing
+    ref: main
+    dest: ./resources/[bcc]/bcc-housing
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-water
+    ref: main
+    dest: ./resources/[bcc]/bcc-water
+
+  - action: waste_time 
+    seconds: 5
+  
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-robbery
+    ref: main
+    dest: ./resources/[bcc]/bcc-robbery
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-farming
+    ref: main
+    dest: ./resources/[bcc]/bcc-farming
+
+    - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-train
+    ref: main
+    dest: ./resources/[bcc]/bcc-train
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-legendaries
+    ref: main
+    dest: ./resources/[bcc]/bcc-legendaries
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-camp
+    ref: main
+    dest: ./resources/[bcc]/bcc-camp
+
+  - action: waste_time 
+    seconds: 5
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-wagons
+    ref: main
+    dest: ./resources/[bcc]/bcc-wagons
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-utils
+    ref: main
+    dest: ./resources/[bcc]/bcc-utils
+
+  - action: download_github
+    src: https://github.com/BryceCanyonCounty/bcc-oil
+    ref: main
+    dest: ./resources/[bcc]/bcc-oil

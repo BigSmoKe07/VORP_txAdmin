@@ -279,6 +279,46 @@ CREATE TABLE IF NOT EXISTS `wagons` (
   KEY `model` (`model`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=UTF8MB4;
 
+CREATE TABLE IF NOT EXISTS `oil` (
+    `identifier` varchar(50) NOT NULL,
+    `charidentifier` int(11) NOT NULL,
+    `manager_trust` int(100) NOT NULL DEFAULT 0,
+    `enemy_trust`  int(100) NOT NULL DEFAULT 0,
+    `oil_wagon` varchar(50) NOT NULL DEFAULT 'none',
+    `delivery_wagon` varchar(50) NOT NULL DEFAULT 'none',
+    UNIQUE KEY `charidentifier` (`charidentifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `player_wagons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` VARCHAR(50) NOT NULL,
+  `charid` INT(11) NOT NULL,
+  `selected` int(11) NOT NULL DEFAULT 0,
+  `name` VARCHAR(100) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `legendaries` (
+    `identifier` varchar(50) NOT NULL,
+    `charidentifier` int(11) NOT NULL,
+    `trust` int(100) NOT NULL DEFAULT 0,
+    UNIQUE KEY `charidentifier` (`charidentifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `bcc_farming` (
+	`plant_id` INT(40) NOT NULL AUTO_INCREMENT,
+    `plant_coords` LONGTEXT NOT NULL,
+    `plant_type` VARCHAR(40) NOT NULL,
+    `plant_watered` char(6) NOT NULL DEFAULT 'false',
+    `time_left` varchar(100) NOT NULL,
+    `plant_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `plant_owner` INT(40) NOT NULL,
+	PRIMARY KEY (`plant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 CREATE TABLE `whitelist` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`identifier` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_bin',
@@ -310,6 +350,24 @@ CREATE TABLE `stables` (
   `inventory` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+CREATE TABLE IF NOT EXISTS `train` (
+    `trainid` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `charidentifier` int(11) NOT NULL,
+    `trainModel` varchar(50) NOT NULL,
+    `fuel` int(11) NOT NULL,
+    `condition` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('bagofcoal', 'Bag Of Coal', 10, 1, 'item_standard', 0)
+ON DUPLICATE KEY UPDATE `item`='bagofcoal', `label`='Bag Of Coal', `limit`=10, `can_remove`=1, `type`='item_standard', `usable`=0;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('trainoil', 'Train Oil', 10, 1, 'item_standard', 0)
+ON DUPLICATE KEY UPDATE `item`='trainoil', `label`='Train Oil', `limit`=10, `can_remove`=1, `type`='item_standard', `usable`=0;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('dynamitebundle', 'Dynamite Bundle', 10, 1, 'item_standard', 0)
+ON DUPLICATE KEY UPDATE `item`='dynamitebundle', `label`='Dynamite Bundle', `limit`=10, `can_remove`=1, `type`='item_standard', `usable`=0;
+
 
 CREATE TABLE `horse_complements`  (
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
@@ -1263,3 +1321,37 @@ INSERT IGNORE INTO `items` (`item`, `label`, `limit`, `can_remove`, `type`, `usa
 ('woodsaw','Woodsaw',10,1,'item_standard',1,'{}','Used to cut wood.'),
 ('wood_plane','Wood Plane',10,1,'item_standard',1,'{}','A wood plane used for shaping wood.'),
 ('wrench','Wrench',10,1,'item_standard',1,'{}','A wrech used to tighten bolts and other things.');
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('canteen', 'Canteen', 1, 1, 'item_standard', 1)
+    ON DUPLICATE KEY UPDATE `item`='canteen', `label`='Canteen', `limit`=1, `can_remove`=1, `type`='item_standard', `usable`=1;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('wateringcan', 'Water Jug', 10, 1, 'item_standard', 1)
+    ON DUPLICATE KEY UPDATE `item`='wateringcan', `label`='Water Jug', `limit`=10, `can_remove`=1, `type`='item_standard', `usable`=1;
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('wateringcan_empty', 'Empty Watering Jug', 10, 1, 'item_standard', 1)
+    ON DUPLICATE KEY UPDATE `item`='wateringcan_empty', `label`='Empty Watering Jug', `limit`=10, `can_remove`=1, `type`='item_standard', `usable`=1;
+
+CREATE TABLE IF NOT EXISTS `player_horses` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `identifier` VARCHAR(50) NOT NULL,
+  `charid` INT(11) NOT NULL,
+  `selected` int(11) NOT NULL DEFAULT 0,
+  `name` VARCHAR(100) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  `gender` ENUM('male', 'female') DEFAULT 'male',
+  `components`  varchar(5000) NOT NULL DEFAULT '{}',
+  `xp` int(11) NOT NULL DEFAULT 0,
+  `captured` int(11) NOT NULL DEFAULT 0,
+  `born` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `player_horses` ADD COLUMN IF NOT EXISTS (`gender` ENUM('male', 'female') DEFAULT 'male');
+ALTER TABLE `player_horses` ADD COLUMN IF NOT EXISTS (`xp` int(11) NOT NULL DEFAULT 0);
+ALTER TABLE `player_horses` ADD COLUMN IF NOT EXISTS (`captured` int(11) NOT NULL DEFAULT 0);
+ALTER TABLE `player_horses` ADD COLUMN IF NOT EXISTS (`born` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP());
+
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`) VALUES ('oil_lantern', 'Oil Lantern', 1, 1, 'item_standard', 1)
+  ON DUPLICATE KEY UPDATE `item`='oil_lantern', `label`='Oil Lantern', `limit`=1, `can_remove`=1, `type`='item_standard', `usable`=1;
+  
+INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`, `desc`) VALUES ('consumable_horse_reviver', 'Horse Reviver', 1, 1, 'item_standard', 1, 'Curative compound for injured horse.')
+  ON DUPLICATE KEY UPDATE `item`='consumable_horse_reviver', `label`='Horse Reviver', `limit`=1, `can_remove`=1, `type`='item_standard', `usable`=1, `desc`='Curative compound for injured horse.';
